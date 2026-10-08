@@ -28,7 +28,7 @@ sudo apt install -y build-essential flex bison libssl-dev libelf-dev bc git dwar
 # Çekirdek kaynağını indirip hazırlayın
 cd ~
 
-git clone --depth=1 https://github.com/microsoft/WSL2-Linux-Kernel.git
+git clone --depth=1 --single-branch https://github.com/microsoft/WSL2-Linux-Kernel.git
 
 cd WSL2-Linux-Kernel
 
