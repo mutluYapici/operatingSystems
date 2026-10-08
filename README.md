@@ -1,13 +1,15 @@
 # operatingSystems
 wsl --unregister Ubuntu
+
 wsl --shutdown
+
 wsl --uninstall
+
 dism.exe /online /disable-feature /featurename:Microsoft-Windows-Subsystem-Linux /norestart
+
 dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
 
 Restart-Computer
-
-
 
 wsl --install
 Restart-Computer
