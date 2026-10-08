@@ -11,27 +11,44 @@ dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
 
 Restart-Computer
 
+
+
 wsl --install
+
 Restart-Computer
+
 sudo apt update && sudo apt upgrade -y
+
 sudo apt install -y build-essential flex bison libssl-dev libelf-dev bc git dwarves
+
+
+
 
 
 # Çekirdek kaynağını indirip hazırlayın
 cd ~
+
 git clone --depth=1 https://github.com/microsoft/WSL2-Linux-Kernel.git
+
 cd WSL2-Linux-Kernel
 
 # Otomatik '+' eki oluşmasını engelleyin (vermagic hatasını çözer)
 touch .scmversion
 
+
+
+
+
 # Mevcut çalışan WSL2 konfigürasyonunu kopyalayın
 zcat /proc/config.gz > .config
+
 make olddefconfig
+
 make modules_prepare
 
 # Çekirdek başlıklarını sisteme bağlayın
 sudo mkdir -p /lib/modules/$(uname -r)
+
 sudo ln -sf ~/WSL2-Linux-Kernel /lib/modules/$(uname -r)/build
 
 
@@ -39,21 +56,25 @@ sudo ln -sf ~/WSL2-Linux-Kernel /lib/modules/$(uname -r)/build
 
 
 
-Test Klasörü Oluşturun ve Dosyaları Yazın
+# Test Klasörü Oluşturun ve Dosyaları Yazın
 
 cd ~
+
 mkdir -p kernel_projects/simple
+
 cd kernel_projects/simple
 
 
 
 
 
-2. simple.c Dosyasını Oluşturun
+# 2. simple.c Dosyasını Oluşturun
 nano simple.c yazıp aşağıdaki hatasız ve tam uyumlu C kodunu yapıştırın (Ctrl+O, Enter, Ctrl+X ile kaydedip çıkın):
 
 #include <linux/init.h>
+
 #include <linux/module.h>
+
 #include <linux/kernel.h>
 
 /* Modül yüklendiğinde çalışacak fonksiyon */
@@ -70,10 +91,14 @@ static void __exit simple_exit(void)
 }
 
 module_init(simple_init);
+
 module_exit(simple_exit);
 
+
 MODULE_LICENSE("GPL");
+
 MODULE_DESCRIPTION("Simple Module");
+
 MODULE_AUTHOR("SGG");
 
 
@@ -87,15 +112,17 @@ MODULE_AUTHOR("SGG");
 
 
 
-3. Makefile Dosyasını Oluşturun
+# 3. Makefile Dosyasını Oluşturun
 nano Makefile yazıp aşağıdaki satırları yapıştırın (girintilerin TAB tuşu ile yapıldığından emin olun):
 
 obj-m += simple.o
 
 all:
+
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 clean:
+
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 
 
@@ -106,10 +133,10 @@ clean:
 
 
 
-AŞAMA 5: Derleme ve Çalıştırma
+# AŞAMA 5: Derleme ve Çalıştırma
 Şimdi modülünüzü derleyin ve test edin:
 
-    Modülü Derleyin:
+Modülü Derleyin:
 
 make
 
