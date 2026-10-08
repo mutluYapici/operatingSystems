@@ -140,6 +140,10 @@ Modülü Derleyin:
 
 make
 
+Hata Alırsanız Aşağıdaki Şekilde Deneyin
+
+KBUILD_MODPOST_WARN=1 make
+
 (Sıfır hata ile simple.ko dosyası oluşacaktır.)
 
     Modülü Çekirdeğe Yükleyin:
